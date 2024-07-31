@@ -3,15 +3,12 @@ using SkinsApi.Interfaces.SkinService;
 using SkinsApi.Models;
 using SkinsApi.Models.SkinService;
 using SkinsApi.Sources;
-using System.Buffers.Text;
-using System.Drawing;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SkinsApi.Services
 {
-    public class SkinService (HttpClient client): ISkinService
+    public class SkinService(HttpClient client) : ISkinService
     {
         private async Task<IProfile> GetProfileByNicknameAsync(string nickname)
         {
@@ -37,12 +34,12 @@ namespace SkinsApi.Services
             return JsonSerializer.Deserialize<DecodedSkinProperty>(decodedString);
         }
         public async Task<Skin> GetSkinStreamAsync(string data)
-        {    
+        {
             var uuid = await GetUuidFromDeparsedData(data);
             var skinproperty = await GetSkinProperty(uuid);
             var rq = await client.GetAsync(skinproperty.Textures.SKIN.Url);
             return new Skin(rq.Content.ReadAsStream(), skinproperty.Textures.SKIN.Metadata?.Model == "slim");
         }
-        
+
     }
 }

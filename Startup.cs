@@ -1,13 +1,9 @@
-﻿using Microsoft.OpenApi.Models;
-using System.Net.Http.Headers;
-using System.Net;
-using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using AspNetCoreRateLimit;
+using Microsoft.OpenApi.Models;
 using SkinsApi.Interfaces.Services;
 using SkinsApi.Services;
-using System.Threading.RateLimiting;
-using SixLabors.ImageSharp;
-using AspNetCoreRateLimit;
+using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace SkinsApi
 {
@@ -51,9 +47,9 @@ namespace SkinsApi
                         },
                         TermsOfService = new Uri("https://yawaflua.ru/privacy")
                     });
-                    
+
                     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                   // setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename), true);
+                    // setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename), true);
                     setup.AddServer(new OpenApiServer() { Url = "https://skins.yawaflua.ru/", Description = "Default web-server" });
 #if DEBUG
                     setup.AddServer(new OpenApiServer() { Url = "http://localhost/", Description = "Dev web-server" });
@@ -64,11 +60,11 @@ namespace SkinsApi
                 .AddSingleton<ISkinService, SkinService>()
                 .AddSingleton(configuration)
                 .AddMemoryCache();
-                services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
-                services.AddInMemoryRateLimiting();
+            services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+            services.AddInMemoryRateLimiting();
 
-                // Добавление Rate Limiting Middleware
-                services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            // Добавление Rate Limiting Middleware
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
 
         }

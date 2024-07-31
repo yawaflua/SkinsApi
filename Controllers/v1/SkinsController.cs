@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using SkinsApi.Interfaces.Services;
 
 namespace SkinsApi.Controllers.v1
 {
     [Route("/api/v1/skin/")]
     [ApiController]
-    
-    public class SkinsController (ISkinService skinService): ControllerBase
+
+    public class SkinsController(ISkinService skinService) : ControllerBase
     {
         /// <summary>
         /// Get user`s skin
@@ -50,11 +49,12 @@ namespace SkinsApi.Controllers.v1
             try
             {
                 return File((await skinService.GetSkinStreamAsync(user)).GetBody(width), "image/png");
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return NotFound();
             }
-            
+
         }
     }
 }

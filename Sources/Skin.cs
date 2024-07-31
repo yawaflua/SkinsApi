@@ -1,5 +1,4 @@
 ﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -45,7 +44,7 @@ namespace SkinsApi.Sources
         public Stream GetAllSkin(float width = 64f)
         {
             var stream = new MemoryStream();
-            int resizedWidth = (int)(_bitmap.Width * (width/_bitmap.Width));
+            int resizedWidth = (int)(_bitmap.Width * (width / _bitmap.Width));
             var resizedPicture = _bitmap.Clone(c => c.Resize(resizedWidth, resizedWidth, KnownResamplers.NearestNeighbor));
             resizedPicture.Save(stream, new PngEncoder());
             stream.Position = 0;
@@ -121,7 +120,7 @@ namespace SkinsApi.Sources
                         .Resize(115, 171, KnownResamplers.NearestNeighbor)); // Изменение размера, если необходимо
                     var bodyImageLayout = sourceImage.Clone(ctx => ctx
                         .Crop(new(bodyLayoutStart, body))
-                        .Resize((int)(115*0.2), (int)(171*0.2), KnownResamplers.NearestNeighbor)); // Изменение размера, если необходимо
+                        .Resize((int)(115 * 0.2), (int)(171 * 0.2), KnownResamplers.NearestNeighbor)); // Изменение размера, если необходимо
                     finalImage.Mutate(ctx => ctx
                         .DrawImage(bodyImage, new Point(87, 120), 1));
                     finalImage.Mutate(ctx => ctx
@@ -219,13 +218,13 @@ namespace SkinsApi.Sources
                 }
 
                 var stream = new MemoryStream();
-                
-                int resizedWidth = (int)(finalImage.Width * (width/ finalImage.Width));
+
+                int resizedWidth = (int)(finalImage.Width * (width / finalImage.Width));
                 finalImage.Mutate(k => k.Resize(resizedWidth, resizedWidth, KnownResamplers.NearestNeighbor));
                 finalImage.Save(stream, new PngEncoder());
                 stream.Position = 0;
                 return stream;
-                
+
             }
         }
 

@@ -5,7 +5,7 @@ namespace SkinsApi.Controllers.v1
 {
     [Route("/skin/")]
     [ApiController]
-    public class AnotherSkinsController ( ISkinService skinService) : ControllerBase
+    public class AnotherSkinsController(ISkinService skinService) : ControllerBase
     {
         [HttpGet("{skin_type}/{width}/{user}")]
         [Produces("image/png")]
